@@ -1,9 +1,10 @@
 import React from 'react';
 import { useStopwatch } from 'react-timer-hook';
-import {useState} from 'react';
+import { useState } from 'react';
 import { Timestamp, EditableTimestamp } from './timestamp.jsx';
 import { v4 as uuidv4 } from 'uuid';
 import { useEffect } from 'react';
+import { getTime } from '../../../getTime.js';
 
 export function MyStopwatch() {
   const {
@@ -20,6 +21,8 @@ export function MyStopwatch() {
   const [description, setDescription] = useState('');
   const [editedDescription, setEditedDescription] = useState('');
   const [editedTimestampKey, setEditedTimestampKey] = useState(null);
+  const [id, setId] = useState('');
+  const [time, setTime] = useState({});
 
   const handleChangeDescription = (event) => {
     setDescription(event.target.value);
@@ -29,9 +32,12 @@ export function MyStopwatch() {
     setEditedDescription(event.target.value);
   };
 
-  const handleAddTimestamp = () => {
+  const handleAddTimestamp = async () => {
+    let t = await getTime(id);
+    console.log(t);
+    setTime(t);  
     setTimestamps([...timestamps, {key: uuidv4(), time: {
-      minutes: minutes, seconds: seconds, hours: hours
+      minutes: time.minutes, seconds: time.seconds, hours: time.hours
     }, description: description}]);
     setDescription('');
   };
@@ -82,13 +88,18 @@ export function MyStopwatch() {
     setTimestamps([]);
   };  
 
-
+  const handleSetId = (event) => {
+    setId(event.target.value);
+  };
 
   return (
     <div className={`bg-gray-900 text-center w-80 h-screen`}>
       <div className='rounded-md border-white border-2 mb-2'> 
         <div className='text-white'>
       <h1 className='mb-1 text-lg'>Timestamps</h1>
+      <div className='text-black flex flex-col mt-1 mb-2'>
+        <input value={id} onChange={handleSetId} type='text' placeholder='why no change' className='text-black mb-2'/>
+     </div>
       <div className='flex justify-center align-text-bottom mb-2'>
         <p className='text-md rounded-sm border-white border-2 p-1'> <span>{hours < 10 ? '0' + hours : hours}</span>:<span>{minutes < 10 ? '0' + minutes : minutes}</span>:<span>{seconds < 10 ? '0' + seconds : seconds}</span> </p>
       <div className='ml-3 flex align-middle'> 

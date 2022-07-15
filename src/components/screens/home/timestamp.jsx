@@ -4,7 +4,7 @@ import './timestamp.css';
 export const Timestamp = ({time, description, handleDeleteTimestamp, handleEditTimestamp}) => {
     return (
         <div className='flex text-white justify-between gap-2 items-center align-middle'>
-            <div> {time.hours < 10 ? "0"+time.hours: time.hours}:{time.minutes < 10 ? "0"+time.minutes: time.minutes}:{time.seconds < 10 ? "0" + time.seconds : time.seconds} - {description}</div>
+            <div> {time.hours}:{time.minutes}:{time.seconds} - {description}</div>
             <div className='flex gap-1'>
             <button onClick={handleEditTimestamp}> 
                 <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
@@ -25,7 +25,7 @@ export const EditableTimestamp = ({time,description, handleDeleteTimestamp, hand
     let descriptionSubstitute = description;
     return (
         <div className='flex text-white justify-between gap-2 items-center align-middle'>
-            <div className=''> {time.minutes < 10 ? "0"+time.minutes: time.minutes}:{time.seconds < 10 ? "0" + time.seconds : time.seconds} 
+            <div className=''> {time.hours}:{time.minutes}:{time.seconds}
                 -
                 <input className="bg-white border-r-2 text-gray-700 leading-tight focus:outline-none ml-2" type="text" onChange={handleEditDescription}  placeholder={descriptionSubstitute} />
             </div>
